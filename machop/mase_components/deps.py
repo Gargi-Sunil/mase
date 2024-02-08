@@ -11,7 +11,6 @@ Entry format:
 MASE_HW_DEPS = {
     # TODO: Failing Test
     # "activations/fixed_relu": [],
-    # "activations/leaky_relu": [],
     # TODO: Failing test: missing "z_proj" in config?
     # "attention/fixed_self_att": ["attention", "cast", "common", "conv",
     #                              "fixed_arithmetic", "linear", "matmul", "ViT"],
