@@ -26,6 +26,7 @@ MASE_HW_DEPS = {
     "common/cut_data": ["common"],
     "common/wrap_data": ["common"],
     "common/skid_buffer": [],
+    "activations/leaky_relu": [],
     # TODO: Geniune test case failure
     # "common/fifo": ["common"],
     "common/input_buffer": ["common"],
