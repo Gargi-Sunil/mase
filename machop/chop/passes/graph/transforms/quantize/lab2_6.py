@@ -12,7 +12,8 @@ def graph_iterator_quantize_verify(graph)-> pd.DataFrame:
         "Mase_OP",
         "Argument Name",
         "Argument Type",
-        "Argument Precision"
+        "Argument Precision",
+        "Argument Shape"
     ]
     rows = []
     for node in graph.fx_graph.nodes:
@@ -33,6 +34,7 @@ def graph_iterator_quantize_verify(graph)-> pd.DataFrame:
                 arg_name,
                 arg_val["type"],
                 arg_val["precision"],
+                arg_val["shape"],
                 ])  
         
     df = pd.DataFrame(rows, columns=headers)    
