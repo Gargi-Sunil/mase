@@ -28,18 +28,19 @@ def linear_calc(node_args,has_bias):
     bo = 0
     for arg_name, arg_val in node_args.items() : 
         if arg_name == "data_in_0":
+            din_batch = arg_val["shape"][0]
             if arg_val["type"] != 'float':
                 din_bits = arg_val["precision"][0]
         if arg_name == "weight":
             if arg_val["type"] == 'float':
-                fm += arg_val["shape"][0]*arg_val["shape"][1]
+                fm += arg_val["shape"][0]*arg_val["shape"][1]*din_batch
             else:
-                bo += arg_val["shape"][0]*arg_val["shape"][1]*arg_val["precision"][0]*din_bits
+                bo += arg_val["shape"][0]*arg_val["shape"][1]*arg_val["precision"][0]*din_bits*din_batch
 
         if has_bias == 1:
             if arg_name == "bias":
                 if arg_val["type"] == 'float':
-                    fa += arg_val["shape"][0]
+                    fa += arg_val["shape"][0]*din_batch
 
     return  {"f_mul":fm,"f_add":fa,"bit_op":bo}  
 
@@ -49,19 +50,20 @@ def batch_norm1d_calc(node_args):  #batch_norm1d is not a quantizable op yet. In
     fa = 0
     bo = 0
     for arg_name, arg_val in node_args.items() : 
+        din_batch = arg_val["shape"][0]
         if arg_name == "data_in_0":
             if arg_val["type"] != 'float':
-                din_bits = arg_val["precision"][0]
+                din_bits = arg_val["precision"][0]*arg_val["shape"][0]
         if arg_name == "weight":
             if arg_val["type"] == 'float':
-                fm += arg_val["shape"][0]
+                fm += arg_val["shape"][0]*din_batch
             else:
-                bo += arg_val["shape"][0]*arg_val["precision"][0]*din_bits
+                bo += arg_val["shape"][0]*arg_val["precision"][0]*din_bits*din_batch
 
        
         if arg_name == "bias":
             if arg_val["type"] == 'float':
-                fa += arg_val["shape"][0]
+                fa += arg_val["shape"][0]*din_batch
 
     return  {"f_mul":fm,"f_add":fa,"bit_op":bo}      
 
